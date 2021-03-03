@@ -2,29 +2,28 @@ from flask import Flask, render_template, request
 import db
 from flaskext.mysql import MySQL
 
-application = Flask(__name__)
-
+app = Flask(__name__)
 
 # application config
-application.config['MYSQL_DATABASE_USER'] = 'root'
-application.config['MYSQL_DATABASE_PASSWORD'] = ''
-application.config['MYSQL_DATABASE_DB'] = 'exam_report_task'
-application.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'exam_report_task'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 # MySql
 mysql = MySQL()
-mysql.init_app(application)
+mysql.init_app(app)
 # MySql Connection
 conn = mysql.connect()
 cursor = conn.cursor()
 
 
-@application.route('/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def home():
     return render_template('home.html')
 
 
-@application.route('/entermarks', methods=['GET', 'POST'])
+@app.route('/entermarks', methods=['GET', 'POST'])
 def redirect_to_enter_marks():
     global cursor, conn
     if request.method == 'GET':
@@ -43,7 +42,7 @@ def redirect_to_enter_marks():
         return render_template('enter_marks.html')
 
 
-@application.route('/leaderboard', methods=['GET'])
+@app.route('/leaderboard', methods=['GET'])
 def redirect_to_view_leaderboard():
     if request.method == 'GET':
         result = db.get_leaderboard(conn, cursor)
@@ -52,4 +51,4 @@ def redirect_to_view_leaderboard():
 
 
 if __name__ == '__main__':
-    application.run()
+    app.run()
