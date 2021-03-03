@@ -35,7 +35,7 @@
         </div>
         <div class="mb-3">
             <label for="total" class="form-label">Total </label>
-            <input type="number" class="form-control" name="total" id="total" placeholder="Total" /><br>
+            <input type="number" class="form-control" name="total" id="total" placeholder="Total"/><br>
         </div>
         <div class="mb-3">
             <label for="percentage" class="form-label">Percentage</label>
@@ -46,15 +46,16 @@
     </form>
 </div>
 <script>
-    function validation_before_submission(e){
-        if (!update_total_and_percentage()){
+    function validation_before_submission(e) {
+        if (!update_total_and_percentage()) {
             e.preventDefault(e);
             return false;
         }
     }
 
     var update_button = document.getElementById('update');
-    update_button.addEventListener('click',update_total_and_percentage);
+    update_button.addEventListener('click', update_total_and_percentage);
+
     function update_total_and_percentage() {
         var marks_in_physics = document.getElementById("marks_in_physics");
         var marks_in_chemistry = document.getElementById("marks_in_chemistry");
@@ -63,9 +64,9 @@
         var percentage = document.getElementById("percentage");
         if (marks_in_physics.value && marks_in_chemistry.value && marks_in_maths.value) {
             if (marks_in_physics.value <= 100 && marks_in_maths.value <= 100 && marks_in_chemistry.value <= 100) {
-                console.log(marks_in_chemistry.value,marks_in_maths.value,marks_in_physics.value);
-                total.value = parseInt(marks_in_chemistry.value )+ parseInt(marks_in_maths.value) + parseInt(marks_in_physics.value);
-                percentage.value = parseInt((total.value / 300) * 100) ;
+                console.log(marks_in_chemistry.value, marks_in_maths.value, marks_in_physics.value);
+                total.value = parseInt(marks_in_chemistry.value) + parseInt(marks_in_maths.value) + parseInt(marks_in_physics.value);
+                percentage.value = parseInt((total.value / 300) * 100);
                 return true;
             }
             else {
@@ -77,6 +78,6 @@
             return false;
         }
     }
-    </script>
+</script>
 </body>
 </html>
