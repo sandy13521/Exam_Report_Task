@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Marks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+<h1>Enter Marks</h1>
+<div class="container">
+    <form method="POST" action="/entermarks" onsubmit="validation_before_submission()">
+        <div class="mb-3">
+            <label for="rollno" class="form-label">Roll No :</label>
+            <input type="text" class="form-control" name="rollno" placeholder="Enter Your Roll No"/><br>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name </label>
+            <input type="text" class="form-control" name="name" placeholder="Enter Your Name"/><br>
+        </div>
+        <div class="mb-3">
+            <label for="marks_maths" class="form-label">Marks in Maths (out of 100)</label>
+            <input type="number" class="form-control" name="marks_in_maths" id="marks_in_maths"
+                   placeholder="Marks in Maths"/><br>
+        </div>
+        <div class="mb-3">
+            <label for="marks_phy" class="form-label">Marks in Physics (out of 100)</label>
+            <input type="number" class="form-control" name="marks_in_physics" id="marks_in_physics"
+                   placeholder="Marks in Physics" required/><br>
+        </div>
+        <div class="mb-3">
+            <label for="marks_chem" class="form-label">Marks in Chemistry (out of 100)</label>
+            <input type="number" class="form-control" name="marks_in_chemistry" id="marks_in_chemistry"
+                   placeholder="Marks in Chemistry" required/><br>
+        </div>
+        <div class="mb-3">
+            <label for="total" class="form-label">Total </label>
+            <input type="number" class="form-control" name="total" id="total" placeholder="Total" /><br>
+        </div>
+        <div class="mb-3">
+            <label for="percentage" class="form-label">Percentage</label>
+            <input type="number" class="form-control" name="percentage" id="percentage" placeholder="Percentage"/><br>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-primary"/>
+        <input class="btn btn-success" id="update" type="button" value="Update">
+    </form>
+</div>
+<script>
+    function validation_before_submission(e){
+        if (!update_total_and_percentage()){
+            e.preventDefault(e);
+            return false;
+        }
+    }
+
+    var update_button = document.getElementById('update');
+    update_button.addEventListener('click',update_total_and_percentage);
+    function update_total_and_percentage() {
+        var marks_in_physics = document.getElementById("marks_in_physics");
+        var marks_in_chemistry = document.getElementById("marks_in_chemistry");
+        var marks_in_maths = document.getElementById("marks_in_maths");
+        var total = document.getElementById("total");
+        var percentage = document.getElementById("percentage");
+        if (marks_in_physics.value && marks_in_chemistry.value && marks_in_maths.value) {
+            if (marks_in_physics.value <= 100 && marks_in_maths.value <= 100 && marks_in_chemistry.value <= 100) {
+                console.log(marks_in_chemistry.value,marks_in_maths.value,marks_in_physics.value);
+                total.value = parseInt(marks_in_chemistry.value )+ parseInt(marks_in_maths.value) + parseInt(marks_in_physics.value);
+                percentage.value = parseInt((total.value / 300) * 100) ;
+                return true;
+            }
+            else {
+                alert('Enter the Marks Properly');
+                return false;
+            }
+        } else {
+            alert("Enter the values");
+            return false;
+        }
+    }
+    </script>
+</body>
+</html>
