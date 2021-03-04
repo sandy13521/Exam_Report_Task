@@ -17,12 +17,13 @@ mysql.init_app(app)
 conn = mysql.connect()
 cursor = conn.cursor()
 
-
+# Home Page
 @app.route('/', methods=['GET'])
 def home():
     return render_template('home.html')
 
 
+# Enter Marks Page
 @app.route('/entermarks', methods=['GET', 'POST'])
 def redirect_to_enter_marks():
     global cursor, conn
@@ -36,20 +37,20 @@ def redirect_to_enter_marks():
         marks_chemistry = str(request.form['marks_in_chemistry'])
         total = str(request.form['total'])
         percentage = str(request.form['percentage'])
-        print(total, percentage)
-        db.insert_student_details(conn, cursor,
-                                  [rollno, name, marks_physics, marks_maths, marks_chemistry, total, percentage])
-        return render_template('enter_marks.html')
+        if not db.insert_student_details(conn, cursor,
+                                  [rollno, name, marks_maths, marks_physics, marks_chemistry, total, percentage]):
+            return render_template('enter_marks.html', status='already')
+        return render_template('enter_marks.html',status='success')
 
 
+# Leader Board Page
 @app.route('/leaderboard', methods=['GET'])
 def redirect_to_view_leaderboard():
     if request.method == 'GET':
         result = db.get_leaderboard(conn, cursor)
-        print(result)
         return render_template('leaderboard.html', result=result)
 
 
 if __name__ == '__main__':
-    # app.run()
-    app.run(host="0.0.0.0")
+    app.run()
+    # app.run(host="0.0.0.0")
